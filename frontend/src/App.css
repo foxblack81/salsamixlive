@@ -1,0 +1,31 @@
+.App {
+  min-height: 100vh;
+  position: relative;
+}
+
+.hero-overlay {
+  background: linear-gradient(180deg, rgba(5, 5, 5, 0.3) 0%, rgba(5, 5, 5, 0.8) 100%);
+}
+
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0, 229, 255, 0.2);
+}
+
+.btn-neon {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-neon:hover {
+  transform: scale(1.05);
+}
+
+.btn-neon:active {
+  transform: scale(0.98);
+}

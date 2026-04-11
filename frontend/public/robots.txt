@@ -1,0 +1,49 @@
+# Robots.txt for SalsaMixLive.com
+# Radio de Salsa Colombiana En Vivo 24/7
+
+User-agent: *
+Allow: /
+Allow: /djs
+Allow: /programacion
+Allow: /player
+
+# Block admin area from search engines
+Disallow: /admin
+Disallow: /admin/*
+
+# Block API endpoints
+Disallow: /api/
+Disallow: /api/*
+
+# Allow specific static files
+Allow: /manifest.json
+Allow: /sitemap.xml
+Allow: /*.js$
+Allow: /*.css$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.ico$
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://salsamixlive.com/sitemap.xml
+
+# Additional directives for specific bots
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /

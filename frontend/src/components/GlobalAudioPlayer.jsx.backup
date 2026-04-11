@@ -1,0 +1,277 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import Marquee from 'react-fast-marquee';
+import axios from 'axios';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
+
+const GlobalAudioPlayer = () => {
+  // Usar el constructor Audio() de JavaScript
+  const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [volume, setVolume] = useState(70);
+  const [currentTrack, setCurrentTrack] = useState(null);
+  const [streamStatus, setStreamStatus] = useState(null);
+  const [showWelcome, setShowWelcome] = useState(true);
+  const [autoplayAttempted, setAutoplayAttempted] = useState(false);
+
+  const STREAM_URL = `${BACKEND_URL}/api/stream/proxy`;
+
+  useEffect(() => {
+    // Crear instancia de Audio usando JavaScript puro
+    audioRef.current = new Audio(STREAM_URL);
+    audioRef.current.volume = volume / 100;
+    
+    // Event listeners
+    audioRef.current.addEventListener('play', () => {
+      console.log('✅ Audio playing');
+      setIsPlaying(true);
+    });
+    
+    audioRef.current.addEventListener('pause', () => {
+      console.log('⏸️ Audio paused');
+      setIsPlaying(false);
+    });
+    
+    audioRef.current.addEventListener('error', (e) => {
+      console.error('❌ Audio error:', e);
+      setIsPlaying(false);
+    });
+
+    fetchStreamStatus();
+    fetchCurrentTrack();
+    const interval = setInterval(() => {
+      fetchStreamStatus();
+      fetchCurrentTrack();
+    }, 10000);
+
+    // Intentar autoplay después de 1 segundo
+    setTimeout(() => {
+      attemptAutoplay();
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  const attemptAutoplay = () => {
+    if (autoplayAttempted || !audioRef.current) return;
+    
+    setAutoplayAttempted(true);
+    console.log('🎵 Intentando autoplay...');
+    
+    audioRef.current.play()
+      .then(() => {
+        console.log('✅ Autoplay exitoso');
+        setShowWelcome(false);
+      })
+      .catch((error) => {
+        console.log('⚠️ Autoplay bloqueado por navegador:', error.name);
+        // Mostrar overlay de bienvenida
+        setShowWelcome(true);
+      });
+  };
+
+  const startPlaying = () => {
+    if (!audioRef.current) return;
+    
+    audioRef.current.play()
+      .then(() => {
+        console.log('✅ Playing');
+        setShowWelcome(false);
+      })
+      .catch((error) => {
+        console.error('❌ Error:', error);
+        alert('Error al iniciar. Intenta nuevamente.');
+      });
+  };
+
+  const fetchStreamStatus = async () => {
+    try {
+      const response = await axios.get(`${API}/stream/status`);
+      setStreamStatus(response.data);
+    } catch (error) {
+      console.error('Error fetching stream status:', error);
+    }
+  };
+
+  const fetchCurrentTrack = async () => {
+    try {
+      const response = await axios.get(`${API}/tracks/current`);
+      setCurrentTrack(response.data);
+    } catch (error) {
+      console.error('Error fetching current track:', error);
+    }
+  };
+
+  // Función simple de play/pause
+  const togglePlay = () => {
+    if (!audioRef.current) {
+      console.error('Audio instance not ready');
+      return;
+    }
+
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play()
+        .then(() => {
+          console.log('✅ Playing successfully');
+        })
+        .catch((error) => {
+          console.error('❌ Play error:', error);
+          alert('⚠️ El navegador bloqueó el audio.\n\n👉 HAZ CLICK NUEVAMENTE para reproducir.');
+        });
+    }
+  };
+
+  const handleVolumeChange = (e) => {
+    const newVolume = parseInt(e.target.value);
+    setVolume(newVolume);
+    if (audioRef.current) {
+      audioRef.current.volume = newVolume / 100;
+    }
+  };
+
+  return (
+    <>
+      {/* OVERLAY DE BIENVENIDA - AUTOPLAY */}
+      {showWelcome && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm">
+          <div className="text-center px-6 max-w-2xl animate-fade-in">
+            <div className="mb-8">
+              <h1 className="text-5xl sm:text-7xl font-black tracking-tight mb-4">
+                <span className="text-white">Salsa</span>
+                <span className="text-[#FFE600]">Mix</span>
+                <span className="text-[#00E5FF]">Live</span>
+                <span className="text-[#FF003C]">.com</span>
+              </h1>
+              <div className="inline-flex items-center gap-2 bg-[#FF003C]/20 text-[#FF003C] border border-[#FF003C] rounded-full px-4 py-2 text-sm uppercase tracking-wider font-bold animate-pulse mb-6">
+                <span className="w-3 h-3 bg-[#FF003C] rounded-full animate-pulse-glow"></span>
+                TRANSMITIENDO EN VIVO
+              </div>
+            </div>
+            
+            <p className="text-2xl text-white mb-4 font-medium">
+              🎵 La mejor salsa colombiana 24/7
+            </p>
+            <p className="text-lg text-[#A1A1AA] mb-8">
+              {streamStatus?.current_dj && `Con ${streamStatus.current_dj}`}
+            </p>
+            
+            <button
+              onClick={startPlaying}
+              className="inline-flex items-center gap-3 bg-[#FFE600] text-black px-12 py-6 rounded-full text-2xl font-black hover:scale-110 transition-transform shadow-2xl"
+              style={{ border: '4px solid #00E5FF' }}
+            >
+              <Play className="w-10 h-10" fill="currentColor" />
+              ENTRAR Y ESCUCHAR
+            </button>
+            
+            <p className="text-sm text-[#A1A1AA] mt-6">
+              Haz click para comenzar la transmisión
+            </p>
+          </div>
+        </div>
+      )}
+      
+      <div
+        data-testid="global-audio-player"
+        className="fixed bottom-0 left-0 right-0 z-50 glass-effect border-t border-white/10 shadow-[0_-8px_32px_rgba(0,0,0,0.5)]"
+      >
+      {/* Progress Bar */}
+      <div className="h-1 bg-gradient-to-r from-[#FFE600] via-[#00E5FF] to-[#FF003C] animate-pulse"></div>
+
+      <div className="container mx-auto px-4 py-6">
+        <div className="flex items-center gap-6">
+          {/* BOTÓN PLAY GRANDE Y VISIBLE */}
+          <button
+            data-testid="play-pause-button"
+            onClick={togglePlay}
+            className="flex-shrink-0 w-20 h-20 sm:w-16 sm:h-16 rounded-full bg-[#FFE600] text-black flex items-center justify-center hover:scale-110 transition-transform shadow-2xl"
+            style={{ border: '4px solid #00E5FF' }}
+          >
+            {isPlaying ? (
+              <Pause className="w-10 h-10 sm:w-8 sm:h-8" fill="currentColor" />
+            ) : (
+              <Play className="w-10 h-10 sm:w-8 sm:h-8 ml-1" fill="currentColor" />
+            )}
+          </button>
+
+          {/* Info */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="inline-flex items-center gap-1 bg-[#FF003C]/20 text-[#FF003C] border border-[#FF003C] rounded-full px-3 py-1 text-sm uppercase tracking-wider font-bold animate-pulse">
+                <span className="w-3 h-3 bg-[#FF003C] rounded-full animate-pulse-glow"></span>
+                {isPlaying ? 'REPRODUCIENDO' : 'EN VIVO'}
+              </span>
+              {streamStatus?.current_dj && (
+                <span className="text-sm text-[#A1A1AA]">con {streamStatus.current_dj}</span>
+              )}
+            </div>
+            
+            {!isPlaying && (
+              <p className="text-lg font-bold text-[#FFE600] mb-2">
+                👈 HAZ CLICK EN EL BOTÓN AMARILLO
+              </p>
+            )}
+            
+            {currentTrack && isPlaying ? (
+              <Marquee gradient={false} speed={40} className="text-base">
+                <span className="mr-8 text-white font-medium">
+                  🎵 {currentTrack.title} - {currentTrack.artist}
+                </span>
+              </Marquee>
+            ) : (
+              <p className="text-sm text-[#A1A1AA]">
+                SalsaMixLive - La mejor salsa colombiana 24/7
+              </p>
+            )}
+          </div>
+
+          {/* Volumen */}
+          <div className="hidden md:flex items-center gap-3">
+            <button onClick={() => setVolume(volume === 0 ? 70 : 0)}>
+              {volume === 0 ? (
+                <VolumeX className="w-6 h-6 text-white" />
+              ) : (
+                <Volume2 className="w-6 h-6 text-white" />
+              )}
+            </button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={volume}
+              onChange={handleVolumeChange}
+              className="w-24 h-2 bg-white/20 rounded-lg cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, #00E5FF 0%, #00E5FF ${volume}%, rgba(255,255,255,0.2) ${volume}%, rgba(255,255,255,0.2) 100%)`
+              }}
+            />
+            <span className="text-sm text-white font-mono w-12">{volume}%</span>
+          </div>
+
+          {/* VLC Link */}
+          <a
+            href={process.env.REACT_APP_STREAM_URL || "http://65.108.105.26:7527/autodj"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden lg:flex items-center gap-2 px-4 py-2 bg-[#00E5FF] text-black rounded-xl hover:scale-105 transition-transform text-sm font-bold"
+          >
+            <Volume2 className="w-4 h-4" />
+            Abrir en VLC
+          </a>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default GlobalAudioPlayer;

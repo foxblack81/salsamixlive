@@ -1,0 +1,131 @@
+format_version: "11"
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+
+project_type: android
+
+app:
+  envs:
+    - GRADLEW_PATH: ./frontend/android/gradlew
+
+trigger_map:
+  - push_branch: main
+    workflow: build-apk
+  - push_branch: master
+    workflow: build-apk
+
+workflows:
+  build-apk:
+    title: Build Android APK
+    summary: Compila el APK de SalsaMixLive
+    
+    steps:
+      - activate-ssh-key@4:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+          
+      - git-clone@8: {}
+      
+      - nvm@1:
+          inputs:
+            - node_version: "20"
+            
+      - script@1:
+          title: Install Yarn
+          inputs:
+            - content: |
+                #!/bin/bash
+                set -ex
+                npm install -g yarn
+                
+      - script@1:
+          title: Install Frontend Dependencies
+          inputs:
+            - content: |
+                #!/bin/bash
+                set -ex
+                cd frontend
+                yarn install
+                
+      - script@1:
+          title: Build React App
+          inputs:
+            - content: |
+                #!/bin/bash
+                set -ex
+                cd frontend
+                yarn build
+                
+      - script@1:
+          title: Sync Capacitor
+          inputs:
+            - content: |
+                #!/bin/bash
+                set -ex
+                cd frontend
+                npx cap sync android
+                
+      - install-missing-android-tools@3:
+          inputs:
+            - gradlew_path: $GRADLEW_PATH
+            
+      - android-build@1:
+          inputs:
+            - project_location: ./frontend/android
+            - module: app
+            - variant: debug
+            - build_type: apk
+            
+      - deploy-to-bitrise-io@2:
+          inputs:
+            - pipeline_intermediate_files: "$BITRISE_APK_PATH:BITRISE_APK_PATH"
+            
+    meta:
+      bitrise.io:
+        stack: linux-docker-android-20.04
+        machine_type_id: standard
+
+  build-release:
+    title: Build Release APK
+    summary: Compila el APK firmado para producción
+    
+    steps:
+      - activate-ssh-key@4:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+          
+      - git-clone@8: {}
+      
+      - nvm@1:
+          inputs:
+            - node_version: "20"
+            
+      - script@1:
+          title: Install Yarn & Build
+          inputs:
+            - content: |
+                #!/bin/bash
+                set -ex
+                npm install -g yarn
+                cd frontend
+                yarn install
+                yarn build
+                npx cap sync android
+                
+      - install-missing-android-tools@3:
+          inputs:
+            - gradlew_path: $GRADLEW_PATH
+            
+      - android-build@1:
+          inputs:
+            - project_location: ./frontend/android
+            - module: app
+            - variant: release
+            - build_type: apk
+            
+      - sign-apk@1:
+          run_if: '{{getenv "BITRISEIO_ANDROID_KEYSTORE_URL" | ne ""}}'
+          
+      - deploy-to-bitrise-io@2: {}
+      
+    meta:
+      bitrise.io:
+        stack: linux-docker-android-20.04
+        machine_type_id: standard
