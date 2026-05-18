@@ -27,7 +27,7 @@ const GlobalAudioPlayer = () => {
   const [currentTrack, setCurrentTrack] = useState(null);
   const [streamStatus, setStreamStatus] = useState(null);
   const [streamMetadata, setStreamMetadata] = useState(null);
-  const [showWelcome, setShowWelcome] = useState(true);
+  const [showWelcome, setShowWelcome] = useState(false);
   const [audioElement, setAudioElement] = useState(null);
   const [connectionStatus, setConnectionStatus] = useState('disconnected');
 

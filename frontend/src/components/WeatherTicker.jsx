@@ -19,10 +19,11 @@ const WeatherTicker = () => {
   const fetchWeather = async () => {
     try {
       const response = await axios.get(`${API}/weather`);
-      setWeather(response.data);
+      setWeather(Array.isArray(response.data) ? response.data : []);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching weather:', error);
+      setWeather([]);
       setLoading(false);
     }
   };

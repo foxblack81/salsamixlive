@@ -25,9 +25,10 @@ const AdvertisementBanner = () => {
   const fetchAds = async () => {
     try {
       const response = await axios.get(`${API}/advertisements?active_only=true`);
-      setAds(response.data);
+      setAds(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       console.error('Error fetching advertisements:', error);
+      setAds([]);
     }
   };
 
