@@ -11,14 +11,5 @@ root.render(
   </React.StrictMode>
 );
 
-// Register service worker for PWA functionality
-serviceWorkerRegistration.register({
-  onSuccess: () => console.log('PWA: Content cached for offline use'),
-  onUpdate: (registration) => {
-    console.log('PWA: New content available, reloading...');
-    if (registration && registration.waiting) {
-      registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-    }
-    window.location.reload();
-  }
-});
+// Keep clients on the live site while we retire the old aggressive cache layer.
+serviceWorkerRegistration.unregister();

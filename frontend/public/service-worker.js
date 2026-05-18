@@ -1,6 +1,6 @@
-const CACHE_NAME = 'salsamixlive-v2';
-const STATIC_CACHE = 'salsamixlive-static-v2';
-const DYNAMIC_CACHE = 'salsamixlive-dynamic-v2';
+const CACHE_NAME = 'salsamixlive-v3';
+const STATIC_CACHE = 'salsamixlive-static-v3';
+const DYNAMIC_CACHE = 'salsamixlive-dynamic-v3';
 
 // Assets to cache immediately
 const STATIC_ASSETS = [
@@ -69,6 +69,12 @@ self.addEventListener('fetch', (event) => {
       !url.hostname.includes('unsplash') &&
       !url.hostname.includes('fonts.googleapis') &&
       !url.hostname.includes('fonts.gstatic')) {
+    return;
+  }
+
+  // Navigations must always prefer the published shell over a stale cached page.
+  if (request.mode === 'navigate') {
+    event.respondWith(networkFirst(request));
     return;
   }
 
