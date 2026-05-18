@@ -39,7 +39,7 @@ jobs:
     - name: Build React app
       run: |
         cd frontend
-        yarn build
+        CI=false yarn build
 
     - name: Sync Capacitor
       run: |
