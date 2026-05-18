@@ -52,7 +52,7 @@
       "keystorePassword": null,
       "keystoreAlias": null,
       "keystoreAliasPassword": null,
-      "releaseType": "APK"
+      "releaseType": "AAB"
     }
   }
 }

@@ -75,7 +75,7 @@
     "cap:sync": "npx cap sync",
     "cap:open:android": "npx cap open android",
     "cap:open:ios": "npx cap open ios",
-    "build:android": "yarn build && npx cap sync android",
+    "build:android": "yarn build && node scripts/prepare-android-build.mjs && npx cap sync android",
     "build:ios": "yarn build && npx cap sync ios"
   },
   "browserslist": {

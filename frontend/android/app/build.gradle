@@ -3,6 +3,23 @@ apply plugin: 'com.android.application'
 android {
     namespace "com.salsamixlive.app"
     compileSdkVersion rootProject.ext.compileSdkVersion
+
+    def releaseKeystorePath = System.getenv("SALSA_RELEASE_KEYSTORE_PATH")
+    def releaseStorePassword = System.getenv("SALSA_RELEASE_STORE_PASSWORD")
+    def releaseKeyAlias = System.getenv("SALSA_RELEASE_KEY_ALIAS")
+    def releaseKeyPassword = System.getenv("SALSA_RELEASE_KEY_PASSWORD")
+
+    signingConfigs {
+        release {
+            if (releaseKeystorePath && releaseStorePassword && releaseKeyAlias && releaseKeyPassword) {
+                storeFile file(releaseKeystorePath)
+                storePassword releaseStorePassword
+                keyAlias releaseKeyAlias
+                keyPassword releaseKeyPassword
+            }
+        }
+    }
+
     defaultConfig {
         applicationId "com.salsamixlive.app"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -19,6 +36,9 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            if (releaseKeystorePath && releaseStorePassword && releaseKeyAlias && releaseKeyPassword) {
+                signingConfig signingConfigs.release
+            }
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
