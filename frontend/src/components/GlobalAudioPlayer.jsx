@@ -4,11 +4,9 @@ import Marquee from 'react-fast-marquee';
 import axios from 'axios';
 import AudioVisualizer from './AudioVisualizer';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
 const API = `${BACKEND_URL}/api`;
-
-// Usar proxy HTTPS para evitar mixed content blocking
-const STREAM_URL = `${BACKEND_URL}/api/stream/proxy`;
+const STREAM_URL = process.env.REACT_APP_STREAM_URL || '/api/stream/proxy';
 
 const GlobalAudioPlayer = () => {
   const audioRef = useRef(null);
@@ -658,7 +656,7 @@ const GlobalAudioPlayer = () => {
 
             {/* Direct Stream Link */}
             <a
-              href="http://cast1.asurahosting.com:7527/autodj"
+              href={STREAM_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden lg:flex items-center gap-2 px-4 py-2 bg-[#00E5FF] text-black rounded-xl hover:scale-105 transition-transform text-sm font-bold"

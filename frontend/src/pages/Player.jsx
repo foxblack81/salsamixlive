@@ -4,7 +4,7 @@ import { X, Volume2 } from 'lucide-react';
 
 const Player = () => {
   const navigate = useNavigate();
-  const STREAM_URL = process.env.REACT_APP_STREAM_URL || "http://65.108.105.26:7527/autodj";
+  const STREAM_URL = process.env.REACT_APP_STREAM_URL || '/api/stream/proxy';
 
   return (
     <div className="min-h-screen bg-[#050505] flex items-center justify-center p-4">
