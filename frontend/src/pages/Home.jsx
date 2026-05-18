@@ -13,6 +13,7 @@ const API = `${BACKEND_URL}/api`;
 
 const Home = () => {
   const [streamStatus, setStreamStatus] = useState(null);
+  const [streamMetadata, setStreamMetadata] = useState(null);
   const [recentTracks, setRecentTracks] = useState([]);
   const [visitorStats, setVisitorStats] = useState({ total_visits: 0, unique_visitors: 0, today_visits: 0 });
 
@@ -45,12 +46,14 @@ const Home = () => {
 
   const fetchData = async () => {
     try {
-      const [statusRes, tracksRes] = await Promise.all([
+      const [statusRes, tracksRes, metadataRes] = await Promise.all([
         axios.get(`${API}/stream/status`),
-        axios.get(`${API}/tracks/history?limit=5`)
+        axios.get(`${API}/tracks/history?limit=5`),
+        axios.get(`${API}/stream/metadata`)
       ]);
       setStreamStatus(statusRes.data);
       setRecentTracks(tracksRes.data);
+      setStreamMetadata(metadataRes.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -118,6 +121,12 @@ const Home = () => {
               description="Escucha la mejor salsa colombiana en vivo las 24 horas. ¡Música que alegra el alma!"
             />
           </div>
+
+          {streamMetadata?.listeners > 0 && (
+            <p className="mt-5 text-xs uppercase tracking-[0.18em] text-white/45">
+              {streamMetadata.listeners.toLocaleString()} oyentes ahora
+            </p>
+          )}
         </div>
       </header>
 
