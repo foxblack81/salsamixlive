@@ -67,6 +67,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
+    "build:pages": "yarn build && node scripts/prepare-pages-build.mjs",
     "test": "craco test",
     "cap:init": "npx cap init SalsaMixLive com.salsamixlive.app --web-dir=build",
     "cap:add:android": "npx cap add android",

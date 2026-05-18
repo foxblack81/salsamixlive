@@ -1,3 +1,35 @@
+# SalsaMixLive frontend
+
+This is the canonical frontend source for the Cloudflare Pages deployment of `salsamixlive.com`.
+
+## Cloudflare Pages
+
+Use the dedicated Pages build so the deploy folder excludes the large downloadable archives that exceed Cloudflare Pages direct-upload limits:
+
+```bash
+yarn build:pages
+```
+
+That command creates `../pages-deploy`, which is the folder to publish with Wrangler:
+
+```bash
+npx wrangler pages deploy ../pages-deploy --project-name=salsamixlive
+```
+
+Automatic deploys are handled by `.github/workflows/deploy-pages.yml` on every push to `main`.
+The GitHub repository needs these Actions secrets:
+
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+
+For Git-based Cloudflare Pages builds, use:
+
+- Root directory: `frontend`
+- Build command: `yarn build:pages`
+- Build output directory: `../pages-deploy`
+
+The normal `build` output still keeps the downloadable archives for non-Pages uses, but `pages-deploy` is the publishable Cloudflare artifact.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
