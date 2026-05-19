@@ -5,6 +5,7 @@ import SocialMediaPopup from '../components/SocialMediaPopup';
 import AdvertisementBanner from '../components/AdvertisementBanner';
 import WeatherTicker from '../components/WeatherTicker';
 import SocialShareButtons from '../components/SocialShareButtons';
+import SocialLinksBar from '../components/SocialLinksBar';
 import { Play, Calendar, Users } from 'lucide-react';
 import axios from 'axios';
 
@@ -183,6 +184,8 @@ const Home = () => {
             <Play className="w-6 h-6" fill="currentColor" aria-hidden="true" />
             Escuchar Ahora
           </button>
+
+          <SocialLinksBar className="mt-6" />
           
           {/* Social Share Button */}
           <div className="mt-6 flex justify-center">
@@ -253,6 +256,15 @@ const Home = () => {
 
       {/* Advertisement Banner - Negocios Locales */}
       <AdvertisementBanner />
+
+      <section className="container mx-auto px-4 py-8" aria-label="Redes sociales de SalsaMixLive">
+        <article className="border-y border-white/10 py-6 text-center">
+          <p className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-white/45">
+            Sigue a SalsaMixLive
+          </p>
+          <SocialLinksBar />
+        </article>
+      </section>
 
       {/* About Section */}
       <section className="container mx-auto px-4 py-12" aria-labelledby="about-heading">
