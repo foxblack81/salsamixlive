@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 import axios from 'axios';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
 const API = `${BACKEND_URL}/api`;
 
 const AdvertisementBanner = () => {
@@ -21,6 +21,14 @@ const AdvertisementBanner = () => {
       return () => clearInterval(interval);
     }
   }, [ads.length]);
+
+  useEffect(() => {
+    if (!ads[currentIndex]) return;
+
+    axios.post(`${API}/advertisements`, { ad_id: ads[currentIndex].id }).catch((error) => {
+      console.error('Error tracking advertisement impression:', error);
+    });
+  }, [ads, currentIndex]);
 
   const fetchAds = async () => {
     try {

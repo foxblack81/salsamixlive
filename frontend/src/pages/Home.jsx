@@ -5,17 +5,89 @@ import SocialMediaPopup from '../components/SocialMediaPopup';
 import AdvertisementBanner from '../components/AdvertisementBanner';
 import WeatherTicker from '../components/WeatherTicker';
 import SocialShareButtons from '../components/SocialShareButtons';
-import { Play, Radio as RadioIcon, Calendar, Users, Eye } from 'lucide-react';
+import { Play, Calendar, Users } from 'lucide-react';
 import axios from 'axios';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
 const API = `${BACKEND_URL}/api`;
+
+const summerEvents = [
+  {
+    badge: 'Gratis',
+    date: 'MAY-SEP',
+    title: 'Bryant Park Picnic Performances',
+    location: 'Bryant Park - Midtown Manhattan',
+    detail: 'Musica, danza, teatro, opera y jazz al aire libre. No requiere registro.',
+    time: 'La mayoria 7:00 PM',
+    accent: 'yellow'
+  },
+  {
+    badge: 'Teatro',
+    date: 'MAY-JUN',
+    title: 'Free Shakespeare in the Park',
+    location: 'Delacorte Theater - Central Park',
+    detail: 'Romeo & Juliet gratis en Central Park con boletos por distribucion y loteria.',
+    time: 'May 22 - Jun 28',
+    accent: 'cyan'
+  },
+  {
+    badge: 'Conciertos',
+    date: 'VERANO',
+    title: 'SummerStage Central Park',
+    location: 'Rumsey Playfield - Central Park',
+    detail: 'Conciertos y cultura gratis durante el verano en parques de NYC.',
+    time: 'Fechas variables',
+    accent: 'red'
+  },
+  {
+    badge: 'Hudson',
+    date: 'MAY-OCT',
+    title: 'Summer on the Hudson',
+    location: 'Riverside Park - West Side Manhattan',
+    detail: 'Mas de 300 eventos gratis: conciertos, cine, baile, fitness y actividades familiares.',
+    time: 'Todo el verano',
+    accent: 'cyan'
+  },
+  {
+    badge: 'Arte',
+    date: 'JUL-SEP',
+    title: 'River To River Festival',
+    location: 'Lower Manhattan',
+    detail: 'Festival gratis de arte, musica, performance e instalaciones en espacios publicos.',
+    time: 'Julio a septiembre',
+    accent: 'yellow'
+  },
+  {
+    badge: 'Times Sq',
+    date: 'MAY-SEP',
+    title: 'TSQ LIVE',
+    location: 'Times Square - Manhattan',
+    detail: 'DJ sets, musica en vivo, baile y programas al aire libre en Times Square.',
+    time: 'Viernes y fechas selectas',
+    accent: 'red'
+  },
+  {
+    badge: 'Especial',
+    date: 'CALLE 8',
+    title: 'Calle 8 en el Parque de Flushing',
+    location: 'Flushing, Queens - Comunidad Latina',
+    detail: 'Salsa, cultura latina, musica en vivo y ambiente familiar para la comunidad.',
+    time: 'Fecha por anunciar',
+    accent: 'yellow'
+  }
+];
 
 const Home = () => {
   const [streamStatus, setStreamStatus] = useState(null);
   const [streamMetadata, setStreamMetadata] = useState(null);
   const [recentTracks, setRecentTracks] = useState([]);
-  const [visitorStats, setVisitorStats] = useState({ total_visits: 0, unique_visitors: 0, today_visits: 0 });
+  const [visitorStats, setVisitorStats] = useState({
+    total_visits: 0,
+    unique_visitors: 0,
+    today_visits: 0,
+    active_ads: 0,
+    ad_impressions: 0
+  });
 
   useEffect(() => {
     fetchData();
@@ -34,11 +106,10 @@ const Home = () => {
         localStorage.setItem('salsamix_visitor_id', visitorId);
       }
       
-      await axios.post(`${API}/visitors/track`, { visitor_id: visitorId });
+      const trackRes = await axios.post(`${API}/visitors/track`, { visitor_id: visitorId });
       
       // Obtener estadísticas actualizadas
-      const statsRes = await axios.get(`${API}/visitors/stats`);
-      setVisitorStats(statsRes.data);
+      setVisitorStats(trackRes.data);
     } catch (error) {
       console.error('Error tracking visitor:', error);
     }
@@ -134,75 +205,49 @@ const Home = () => {
       <main>
         <section className="container mx-auto px-4 py-12" aria-labelledby="eventos-heading">
           <article className="glass-effect rounded-2xl p-6 md:p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <Calendar className="w-6 h-6 text-[#FFE600]" aria-hidden="true" />
-              <h2 id="eventos-heading" className="text-2xl sm:text-3xl font-bold">Eventos Salseros en tu Area</h2>
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
+              <div className="flex items-center gap-3">
+                <Calendar className="w-6 h-6 text-[#FFE600]" aria-hidden="true" />
+                <h2 id="eventos-heading" className="text-2xl sm:text-3xl font-bold">Eventos gratis de verano en NY</h2>
+              </div>
+              <p className="text-xs uppercase tracking-[0.18em] text-white/45">Manhattan + comunidad latina</p>
             </div>
           
-          <div className="space-y-4">
-            {/* Evento 1 */}
-            <div className="flex flex-col sm:flex-row gap-4 p-5 bg-[#0F0F13] rounded-xl border border-white/10 hover:border-[#FFE600]/50 transition-colors">
-              <div className="flex-shrink-0 bg-gradient-to-br from-[#FFE600]/20 to-[#FF003C]/20 rounded-lg p-4 text-center sm:w-24">
-                <div className="text-3xl font-black text-[#FFE600]">15</div>
-                <div className="text-sm text-[#A1A1AA] uppercase">ABR</div>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xl font-bold text-white mb-2">Noche de Salsa en Vivo</h3>
-                <p className="text-[#00E5FF] text-sm mb-2">📍 Club La Rumba - Cali</p>
-                <p className="text-[#A1A1AA] text-sm">🎵 Con DJ Carlos & Orquesta Sabor Latino</p>
-                <p className="text-[#A1A1AA] text-sm mt-2">⏰ 9:00 PM - 3:00 AM</p>
-              </div>
-              <div className="flex sm:flex-col gap-2 justify-end">
-                <span className="px-4 py-2 bg-[#FFE600]/20 text-[#FFE600] rounded-lg text-sm font-bold whitespace-nowrap">
-                  $25.000
-                </span>
-              </div>
-            </div>
+          <div className="flex gap-4 overflow-x-auto pb-3 snap-x snap-mandatory scrollbar-hide" aria-label="Carrusel de eventos gratis de verano">
+            {summerEvents.map((event) => {
+              const accentClass = event.accent === 'cyan'
+                ? 'border-[#00E5FF]/45 text-[#00E5FF] from-[#00E5FF]/15'
+                : event.accent === 'red'
+                  ? 'border-[#FF003C]/45 text-[#FF003C] from-[#FF003C]/15'
+                  : 'border-[#FFE600]/45 text-[#FFE600] from-[#FFE600]/15';
 
-            {/* Evento 2 */}
-            <div className="flex flex-col sm:flex-row gap-4 p-5 bg-[#0F0F13] rounded-xl border border-white/10 hover:border-[#FFE600]/50 transition-colors">
-              <div className="flex-shrink-0 bg-gradient-to-br from-[#00E5FF]/20 to-[#FFE600]/20 rounded-lg p-4 text-center sm:w-24">
-                <div className="text-3xl font-black text-[#00E5FF]">22</div>
-                <div className="text-sm text-[#A1A1AA] uppercase">ABR</div>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xl font-bold text-white mb-2">Festival de Salsa Colombiana</h3>
-                <p className="text-[#00E5FF] text-sm mb-2">📍 Plaza Mayor - Medellín</p>
-                <p className="text-[#A1A1AA] text-sm">🎵 Grupo Niche, Fruko y sus Tesos</p>
-                <p className="text-[#A1A1AA] text-sm mt-2">⏰ 6:00 PM - 12:00 AM</p>
-              </div>
-              <div className="flex sm:flex-col gap-2 justify-end">
-                <span className="px-4 py-2 bg-[#00E5FF]/20 text-[#00E5FF] rounded-lg text-sm font-bold whitespace-nowrap">
-                  $50.000
-                </span>
-              </div>
-            </div>
-
-            {/* Evento 3 */}
-            <div className="flex flex-col sm:flex-row gap-4 p-5 bg-[#0F0F13] rounded-xl border border-white/10 hover:border-[#FFE600]/50 transition-colors">
-              <div className="flex-shrink-0 bg-gradient-to-br from-[#FF003C]/20 to-[#00E5FF]/20 rounded-lg p-4 text-center sm:w-24">
-                <div className="text-3xl font-black text-[#FF003C]">30</div>
-                <div className="text-sm text-[#A1A1AA] uppercase">ABR</div>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xl font-bold text-white mb-2">Clases de Salsa Gratis</h3>
-                <p className="text-[#00E5FF] text-sm mb-2">📍 Academia Sabor - Bogotá</p>
-                <p className="text-[#A1A1AA] text-sm">🎵 Iniciantes y Avanzados</p>
-                <p className="text-[#A1A1AA] text-sm mt-2">⏰ 7:00 PM - 9:00 PM</p>
-              </div>
-              <div className="flex sm:flex-col gap-2 justify-end">
-                <span className="px-4 py-2 bg-[#FF003C]/20 text-[#FF003C] rounded-lg text-sm font-bold whitespace-nowrap">
-                  GRATIS
-                </span>
-              </div>
-            </div>
+              return (
+                <article
+                  key={event.title}
+                  className={`min-w-[280px] sm:min-w-[340px] max-w-[360px] snap-start rounded-xl border bg-gradient-to-br ${accentClass} via-[#0F0F13] to-black/30 p-5 transition-transform hover:-translate-y-1`}
+                >
+                  <div className="flex items-start justify-between gap-4 mb-5">
+                    <div className="rounded-lg border border-white/10 bg-black/35 px-4 py-3 text-center">
+                      <p className="text-xs uppercase tracking-[0.18em] text-white/45">{event.badge}</p>
+                      <p className="text-xl font-black text-white">{event.date}</p>
+                    </div>
+                    <span className={`rounded-full border px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] ${accentClass}`}>
+                      Gratis
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-black text-white mb-3">{event.title}</h3>
+                  <p className="text-[#00E5FF] text-sm mb-3">{event.location}</p>
+                  <p className="text-[#A1A1AA] text-sm leading-relaxed min-h-[64px]">{event.detail}</p>
+                  <p className="mt-4 text-xs uppercase tracking-[0.16em] text-white/45">{event.time}</p>
+                </article>
+              );
+            })}
           </div>
 
-          <div className="mt-6 text-center">
-            <button className="px-6 py-3 bg-gradient-to-r from-[#FFE600] to-[#00E5FF] text-black font-bold rounded-xl hover:scale-105 transition-transform" aria-label="Ver todos los eventos de salsa">
-              Ver Todos los Eventos
-            </button>
-          </div>
+          <p className="mt-4 text-xs text-[#A1A1AA]">
+            Calendario curado de eventos gratis. Verifica horarios el mismo dia con cada organizador.
+          </p>
+
         </article>
       </section>
 
@@ -251,38 +296,41 @@ const Home = () => {
       </section>
 
       {/* Visitor Counter Section */}
-      <section data-testid="visitor-counter-section" className="container mx-auto px-4 py-8" aria-labelledby="stats-heading">
-        <article className="glass-effect rounded-2xl p-6 md:p-8">
-          <div className="flex items-center gap-3 mb-6">
-            <Users className="w-6 h-6 text-[#00E5FF]" aria-hidden="true" />
-            <h2 id="stats-heading" className="text-2xl sm:text-3xl font-bold">Estadisticas de Visitas</h2>
+      <section data-testid="visitor-counter-section" className="container mx-auto px-4 py-6" aria-labelledby="stats-heading">
+        <article className="border-y border-white/10 py-5">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3">
+              <Users className="w-5 h-5 text-[#00E5FF]" aria-hidden="true" />
+              <h2 id="stats-heading" className="text-sm font-bold uppercase tracking-[0.18em] text-white/60">Actividad de la emisora</h2>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3 sm:min-w-[460px]">
+              <div data-testid="total-visits" className="text-center">
+                <p className="text-xl font-black text-[#FFE600]" aria-label={`${visitorStats.total_visits} visitas totales`}>
+                  {visitorStats.total_visits.toLocaleString()}
+                </p>
+                <p className="text-[10px] text-[#A1A1AA] uppercase tracking-[0.16em]">Total</p>
+              </div>
+
+              <div data-testid="ad-impressions" className="text-center">
+                <p className="text-xl font-black text-[#00E5FF]" aria-label={`${visitorStats.ad_impressions} vistas de anuncios`}>
+                  {visitorStats.ad_impressions.toLocaleString()}
+                </p>
+                <p className="text-[10px] text-[#A1A1AA] uppercase tracking-[0.16em]">Anuncios</p>
+              </div>
+
+              <div data-testid="today-visits" className="text-center">
+                <p className="text-xl font-black text-[#FF003C]" aria-label={`${visitorStats.today_visits} visitas hoy`}>
+                  {visitorStats.today_visits.toLocaleString()}
+                </p>
+                <p className="text-[10px] text-[#A1A1AA] uppercase tracking-[0.16em]">Hoy</p>
+              </div>
+            </div>
           </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div data-testid="total-visits" className="bg-gradient-to-br from-[#FFE600]/10 to-[#FFE600]/5 rounded-xl p-6 text-center border border-[#FFE600]/20">
-              <Eye className="w-8 h-8 text-[#FFE600] mx-auto mb-3" aria-hidden="true" />
-              <p className="text-4xl font-black text-[#FFE600] mb-2" aria-label={`${visitorStats.total_visits} visitas totales`}>
-                {visitorStats.total_visits.toLocaleString()}
-              </p>
-              <p className="text-sm text-[#A1A1AA] uppercase tracking-wider">Visitas Totales</p>
-            </div>
-            
-            <div data-testid="unique-visitors" className="bg-gradient-to-br from-[#00E5FF]/10 to-[#00E5FF]/5 rounded-xl p-6 text-center border border-[#00E5FF]/20">
-              <Users className="w-8 h-8 text-[#00E5FF] mx-auto mb-3" aria-hidden="true" />
-              <p className="text-4xl font-black text-[#00E5FF] mb-2" aria-label={`${visitorStats.unique_visitors} visitantes unicos`}>
-                {visitorStats.unique_visitors.toLocaleString()}
-              </p>
-              <p className="text-sm text-[#A1A1AA] uppercase tracking-wider">Visitantes Unicos</p>
-            </div>
-            
-            <div data-testid="today-visits" className="bg-gradient-to-br from-[#FF003C]/10 to-[#FF003C]/5 rounded-xl p-6 text-center border border-[#FF003C]/20">
-              <Eye className="w-8 h-8 text-[#FF003C] mx-auto mb-3" aria-hidden="true" />
-              <p className="text-4xl font-black text-[#FF003C] mb-2" aria-label={`${visitorStats.today_visits} visitas hoy`}>
-                {visitorStats.today_visits.toLocaleString()}
-              </p>
-              <p className="text-sm text-[#A1A1AA] uppercase tracking-wider">Visitas Hoy</p>
-            </div>
-          </div>
+
+          <p className="mt-3 text-right text-[10px] uppercase tracking-[0.16em] text-white/35">
+            {visitorStats.unique_visitors.toLocaleString()} visitantes unicos | {visitorStats.active_ads.toLocaleString()} anuncios activos
+          </p>
         </article>
       </section>
       </main>

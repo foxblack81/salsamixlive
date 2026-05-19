@@ -1,0 +1,12 @@
+{
+  "$schema": "./frontend/node_modules/wrangler/config-schema.json",
+  "name": "salsamixlive",
+  "compatibility_date": "2026-05-19",
+  "pages_build_output_dir": "./frontend/build",
+  "kv_namespaces": [
+    {
+      "binding": "SALSAMIX_STATS",
+      "id": "b979eb764bab4083ab8e495de87fad6b"
+    }
+  ]
+}
