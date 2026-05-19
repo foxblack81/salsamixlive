@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Marquee from 'react-fast-marquee';
 import axios from 'axios';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
 const API = `${BACKEND_URL}/api`;
 
 const WeatherTicker = () => {

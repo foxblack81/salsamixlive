@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Radio, Volume2, VolumeX, User } from 'lucide-react';
 import axios from 'axios';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
 const WS_URL = BACKEND_URL.replace('https://', 'wss://').replace('http://', 'ws://');
 const API = `${BACKEND_URL}/api`;
 
