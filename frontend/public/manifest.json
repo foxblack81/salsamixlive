@@ -1,7 +1,7 @@
 {
   "short_name": "SalsaMixLive",
   "name": "SalsaMixLive - Salsa Colombiana 24/7",
-  "description": "La mejor radio de salsa colombiana en vivo. Escucha gratis música de Grupo Niche, Fruko, Joe Arroyo y más artistas las 24 horas.",
+  "description": "Radio salsa en vivo 24/7 con DJ Kalenita desde NY para el mundo entero. Salsa colombiana, salsa clasica y musica tropical gratis online.",
   "icons": [
     {
       "src": "icons/icon-72x72.png",
@@ -76,42 +76,27 @@
   "lang": "es",
   "dir": "ltr",
   "iarc_rating_id": "",
-  "screenshots": [
-    {
-      "src": "screenshots/screenshot-mobile.png",
-      "type": "image/png",
-      "sizes": "750x1334",
-      "form_factor": "narrow",
-      "label": "Radio en Vivo"
-    },
-    {
-      "src": "screenshots/screenshot-desktop.png",
-      "type": "image/png",
-      "sizes": "1280x720",
-      "form_factor": "wide",
-      "label": "Vista de Escritorio"
-    }
-  ],
+  "screenshots": [],
   "shortcuts": [
     {
       "name": "Escuchar Ahora",
       "short_name": "Play",
-      "description": "Comenzar a escuchar salsa en vivo",
+      "description": "Radio salsa en vivo 24/7 con DJ Kalenita desde NY para el mundo entero. Salsa colombiana, salsa clasica y musica tropical gratis online.",
       "url": "/?action=play",
       "icons": [{ "src": "icons/icon-play.png", "sizes": "192x192" }]
     },
     {
       "name": "Ver DJs",
       "short_name": "DJs",
-      "description": "Ver lista de DJs",
+      "description": "Radio salsa en vivo 24/7 con DJ Kalenita desde NY para el mundo entero. Salsa colombiana, salsa clasica y musica tropical gratis online.",
       "url": "/djs",
       "icons": [{ "src": "icons/icon-djs.png", "sizes": "192x192" }]
     },
     {
       "name": "Programación",
       "short_name": "Horarios",
-      "description": "Ver programación semanal",
-      "url": "/programacion",
+      "description": "Radio salsa en vivo 24/7 con DJ Kalenita desde NY para el mundo entero. Salsa colombiana, salsa clasica y musica tropical gratis online.",
+      "url": "/schedule",
       "icons": [{ "src": "icons/icon-schedule.png", "sizes": "192x192" }]
     }
   ],

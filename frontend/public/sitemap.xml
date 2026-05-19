@@ -7,32 +7,32 @@
   
   <!-- Homepage - Highest Priority -->
   <url>
-    <loc>https://salsamixlive.com/</loc>
-    <lastmod>2026-03-30</lastmod>
+    <loc>https://www.salsamixlive.com/</loc>
+    <lastmod>2026-05-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   
   <!-- Live Player Page -->
   <url>
-    <loc>https://salsamixlive.com/player</loc>
-    <lastmod>2026-03-30</lastmod>
+    <loc>https://www.salsamixlive.com/player</loc>
+    <lastmod>2026-05-19</lastmod>
     <changefreq>always</changefreq>
     <priority>0.9</priority>
   </url>
   
   <!-- DJs Page -->
   <url>
-    <loc>https://salsamixlive.com/djs</loc>
-    <lastmod>2026-03-30</lastmod>
+    <loc>https://www.salsamixlive.com/djs</loc>
+    <lastmod>2026-05-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <!-- Programming Schedule -->
   <url>
-    <loc>https://salsamixlive.com/programacion</loc>
-    <lastmod>2026-03-30</lastmod>
+    <loc>https://www.salsamixlive.com/schedule</loc>
+    <lastmod>2026-05-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

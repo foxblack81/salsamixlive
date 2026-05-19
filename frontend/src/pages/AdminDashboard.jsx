@@ -213,7 +213,7 @@ const AdminDashboard = () => {
       });
       
       // Construir URL completa
-      const imageUrl = `${BACKEND_URL}${response.data.url}`;
+      const imageUrl = response.data.url;
       setNewAd({ ...newAd, image_url: imageUrl });
       alert('Imagen subida exitosamente');
     } catch (error) {

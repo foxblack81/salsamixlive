@@ -1,4 +1,5 @@
-import { json, unavailable } from './_json.js';
+import { makeId, readCollection, requireAdmin, writeJson } from './_admin.js';
+import { json } from './_json.js';
 
 const DEFAULT_SCHEDULE = [
   {
@@ -23,10 +24,33 @@ const DEFAULT_SCHEDULE = [
   },
 ];
 
-export async function onRequestGet() {
-  return json(DEFAULT_SCHEDULE);
+export async function onRequestGet({ env }) {
+  const saved = env.SALSAMIX_STATS ? await env.SALSAMIX_STATS.get('admin:schedule', 'json') : null;
+  return json(Array.isArray(saved) ? saved : DEFAULT_SCHEDULE);
 }
 
-export async function onRequestPost() {
-  return unavailable('Crear programacion');
+export async function onRequestPost({ request, env }) {
+  const auth = await requireAdmin(request, env);
+  if (auth.error) return auth.error;
+
+  const body = await request.json();
+  const item = {
+    id: makeId('schedule'),
+    dj_id: String(body.dj_id || ''),
+    dj_name: String(body.dj_name || ''),
+    day_of_week: Number(body.day_of_week || 0),
+    start_time: String(body.start_time || ''),
+    end_time: String(body.end_time || ''),
+    show_name: String(body.show_name || '').trim(),
+    description: String(body.description || ''),
+  };
+
+  if (!item.dj_id || !item.show_name || !item.start_time || !item.end_time) {
+    return json({ detail: 'DJ, programa y horario son requeridos.' }, { status: 400 });
+  }
+
+  const schedule = await readCollection(auth.store, 'admin:schedule');
+  schedule.push(item);
+  await writeJson(auth.store, 'admin:schedule', schedule);
+  return json(item);
 }

@@ -4,7 +4,7 @@
 User-agent: *
 Allow: /
 Allow: /djs
-Allow: /programacion
+Allow: /schedule
 Allow: /player
 
 # Block admin area from search engines
@@ -28,7 +28,7 @@ Allow: /*.ico$
 Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://salsamixlive.com/sitemap.xml
+Sitemap: https://www.salsamixlive.com/sitemap.xml
 
 # Additional directives for specific bots
 User-agent: Googlebot

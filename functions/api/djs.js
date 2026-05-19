@@ -1,4 +1,4 @@
-import { json, unavailable } from './_json.js';
+import { json } from './_json.js';
 
 const DEFAULT_DJS = [
   {
@@ -13,10 +13,7 @@ const DEFAULT_DJS = [
   },
 ];
 
-export async function onRequestGet() {
-  return json(DEFAULT_DJS);
-}
-
-export async function onRequestPost() {
-  return unavailable('Crear DJs');
+export async function onRequestGet({ env }) {
+  const saved = env.SALSAMIX_STATS ? await env.SALSAMIX_STATS.get('admin:djs', 'json') : null;
+  return json(Array.isArray(saved) ? saved : DEFAULT_DJS);
 }
