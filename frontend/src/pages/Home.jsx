@@ -190,7 +190,7 @@ const Home = () => {
           {/* Social Share Button */}
           <div className="mt-6 flex justify-center">
             <SocialShareButtons 
-              url="https://salsamixlive.com"
+              url="https://www.salsamixlive.com"
               title="SalsaMixLive - La mejor salsa colombiana 24/7"
               description="Escucha la mejor salsa colombiana en vivo las 24 horas. ¡Música que alegra el alma!"
             />
