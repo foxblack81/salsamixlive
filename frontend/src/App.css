@@ -7,6 +7,53 @@
   background: linear-gradient(180deg, rgba(5, 5, 5, 0.3) 0%, rgba(5, 5, 5, 0.8) 100%);
 }
 
+.promo-hero {
+  background:
+    radial-gradient(circle at 18% 28%, rgba(255, 0, 60, 0.2), transparent 34%),
+    radial-gradient(circle at 82% 58%, rgba(0, 229, 255, 0.16), transparent 36%),
+    #050505;
+}
+
+.promo-hero-glow {
+  background: linear-gradient(120deg, transparent 25%, rgba(255, 230, 0, 0.08) 50%, transparent 75%);
+  animation: promo-light-sweep 7s ease-in-out infinite;
+}
+
+.promo-image-frame {
+  width: min(100%, 760px);
+  border-radius: 1.5rem;
+  padding: 3px;
+  background: linear-gradient(135deg, #ff003c, #ffe600 48%, #00e5ff);
+  box-shadow: 0 24px 80px rgba(255, 0, 60, 0.24), 0 0 44px rgba(0, 229, 255, 0.14);
+  animation: promo-float 5.5s ease-in-out infinite;
+}
+
+.promo-hero-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 78vh;
+  object-fit: contain;
+  border-radius: calc(1.5rem - 3px);
+}
+
+@keyframes promo-float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-10px) scale(1.008); }
+}
+
+@keyframes promo-light-sweep {
+  0%, 100% { transform: translateX(-16%); opacity: 0.45; }
+  50% { transform: translateX(16%); opacity: 0.9; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .promo-image-frame,
+  .promo-hero-glow {
+    animation: none;
+  }
+}
+
 .card-hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }

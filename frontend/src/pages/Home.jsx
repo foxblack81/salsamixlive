@@ -144,37 +144,34 @@ const Home = () => {
       {/* Hero Section with semantic HTML */}
       <header
         data-testid="hero-section"
-        className="relative min-h-[60vh] flex items-center justify-center overflow-hidden"
-        style={{
-          backgroundImage: `url('https://static.prod-images.emergentagent.com/jobs/b1e467b6-82a0-4255-bcc5-9912ed46c9a3/images/5106021b85a2bf1f44e6c5811ded8ae89dfac8bfebed4a5279b8133dcf8b2320.png')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
+        className="promo-hero relative flex min-h-[75vh] items-center justify-center overflow-hidden px-3 py-6 sm:px-6 sm:py-10"
         role="banner"
-        aria-label="SalsaMixLive - Radio de Salsa Colombiana"
+        aria-label="Rifa de un Conga Holder en SalsaMixLive"
       >
-        <div className="absolute inset-0 bg-black/60"></div>
-        
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+        <div className="promo-hero-glow absolute inset-0" aria-hidden="true"></div>
+
+        <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center">
+          <h1 className="sr-only">Rifa de un Conga Holder de Santos 3D en SalsaMixLive</h1>
+
+          <div className="promo-image-frame">
+            <img
+              src="/images/conga-holder-rifa-sept-5-2026.jpg"
+              alt="Flyer de la rifa de un Conga Holder de Santos 3D. Para participar comenta CONGA, dale like, comparte SalsaMixLive.com y sigue las redes sociales. Sorteo el sábado 5 de septiembre."
+              className="promo-hero-image"
+              width="1856"
+              height="2304"
+              fetchPriority="high"
+            />
+          </div>
+
+          <div className="mt-6 flex flex-col items-center gap-4 text-center">
           {streamStatus?.is_live && (
-            <div data-testid="live-badge" className="inline-flex items-center gap-2 bg-[#FF003C]/20 text-[#FF003C] border border-[#FF003C] rounded-full px-4 py-2 text-sm uppercase tracking-[0.2em] font-bold animate-pulse mb-6" role="status" aria-live="polite">
+            <div data-testid="live-badge" className="inline-flex items-center gap-2 bg-[#FF003C]/20 text-[#FF003C] border border-[#FF003C] rounded-full px-4 py-2 text-sm uppercase tracking-[0.2em] font-bold animate-pulse" role="status" aria-live="polite">
               <span className="w-3 h-3 bg-[#FF003C] rounded-full animate-pulse-glow" aria-hidden="true"></span>
               EN VIVO AHORA
             </div>
           )}
-          
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-tight mb-6">
-            <span className="text-white">Salsa</span>
-            <span className="text-[#FFE600]">Mix</span>
-            <span className="text-[#00E5FF]">Live</span>
-            <span className="text-[#FF003C]">.com</span>
-          </h1>
-          
-          <p className="text-lg sm:text-xl text-[#A1A1AA] mb-8 max-w-2xl mx-auto">
-            La mejor <strong>salsa colombiana</strong> 24/7. Transmision en vivo con los mejores DJs. 
-            Escucha <strong>musica salsa gratis</strong> online desde Colombia.
-          </p>
-          
+
           <button
             data-testid="hero-play-button"
             onClick={() => window.open('/player', '_blank', 'width=800,height=600')}
@@ -185,10 +182,10 @@ const Home = () => {
             Escuchar Ahora
           </button>
 
-          <SocialLinksBar className="mt-6" />
+          <SocialLinksBar />
           
           {/* Social Share Button */}
-          <div className="mt-6 flex justify-center">
+          <div className="flex justify-center">
             <SocialShareButtons 
               url="https://www.salsamixlive.com"
               title="SalsaMixLive - La mejor salsa colombiana 24/7"
@@ -197,10 +194,11 @@ const Home = () => {
           </div>
 
           {streamMetadata?.listeners > 0 && (
-            <p className="mt-5 text-xs uppercase tracking-[0.18em] text-white/45">
+            <p className="text-xs uppercase tracking-[0.18em] text-white/45">
               {streamMetadata.listeners.toLocaleString()} oyentes ahora
             </p>
           )}
+          </div>
         </div>
       </header>
 
