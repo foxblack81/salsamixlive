@@ -149,6 +149,24 @@ const Home = () => {
         aria-label="Rifa de un Conga Holder en SalsaMixLive"
       >
         <div className="promo-hero-glow absolute inset-0" aria-hidden="true"></div>
+        <div className="disco-lights absolute inset-0" aria-hidden="true">
+          <span className="disco-beam disco-beam-one"></span>
+          <span className="disco-beam disco-beam-two"></span>
+          <span className="disco-beam disco-beam-three"></span>
+        </div>
+        <div className="star-rain absolute inset-0" aria-hidden="true">
+          {Array.from({ length: 28 }, (_, index) => (
+            <span
+              key={index}
+              style={{
+                '--star-index': index,
+                left: `${(index * 37) % 100}%`,
+                animationDelay: `${index * -0.31}s`,
+                animationDuration: `${2.8 + (index % 7) * 0.34}s`,
+              }}
+            ></span>
+          ))}
+        </div>
 
         <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center">
           <h1 className="sr-only">Rifa de un Conga Holder de Santos 3D en SalsaMixLive</h1>

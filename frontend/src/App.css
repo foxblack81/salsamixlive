@@ -19,6 +19,67 @@
   animation: promo-light-sweep 7s ease-in-out infinite;
 }
 
+.disco-lights,
+.star-rain {
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.disco-beam {
+  position: absolute;
+  top: -22%;
+  left: 50%;
+  width: 22%;
+  height: 125%;
+  transform-origin: 50% 0;
+  opacity: 0.28;
+  filter: blur(10px);
+  mix-blend-mode: screen;
+  clip-path: polygon(47% 0, 53% 0, 100% 100%, 0 100%);
+}
+
+.disco-beam-one {
+  background: linear-gradient(to bottom, #ff003c, transparent 76%);
+  animation: disco-sweep-one 5.2s ease-in-out infinite alternate;
+}
+
+.disco-beam-two {
+  background: linear-gradient(to bottom, #00e5ff, transparent 76%);
+  animation: disco-sweep-two 6.4s ease-in-out infinite alternate;
+}
+
+.disco-beam-three {
+  background: linear-gradient(to bottom, #ffe600, transparent 76%);
+  animation: disco-sweep-three 4.6s ease-in-out infinite alternate;
+}
+
+.star-rain span {
+  position: absolute;
+  top: -12%;
+  width: 5px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0 8px 2px #fff, 0 0 16px 5px rgba(255, 230, 0, 0.72);
+  animation-name: falling-star;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.star-rain span:nth-child(3n) { width: 3px; }
+.star-rain span:nth-child(4n) { width: 7px; }
+
+.star-rain span::after {
+  content: '';
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  width: 1px;
+  height: 30px;
+  transform: translateX(-50%);
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.85), transparent);
+}
+
 .promo-image-frame {
   width: min(100%, 760px);
   border-radius: 1.5rem;
@@ -56,10 +117,34 @@
   50% { transform: translateX(16%); opacity: 0.9; }
 }
 
+@keyframes falling-star {
+  0% { transform: translate3d(-20px, -12vh, 0) rotate(14deg) scale(0.5); opacity: 0; }
+  12% { opacity: 1; }
+  82% { opacity: 0.95; }
+  100% { transform: translate3d(80px, 120vh, 0) rotate(14deg) scale(1.15); opacity: 0; }
+}
+
+@keyframes disco-sweep-one {
+  from { transform: translateX(-65%) rotate(-38deg); }
+  to { transform: translateX(10%) rotate(36deg); }
+}
+
+@keyframes disco-sweep-two {
+  from { transform: translateX(-12%) rotate(42deg); }
+  to { transform: translateX(-80%) rotate(-32deg); }
+}
+
+@keyframes disco-sweep-three {
+  from { transform: translateX(-45%) rotate(-16deg); opacity: 0.18; }
+  to { transform: translateX(-18%) rotate(22deg); opacity: 0.36; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .promo-image-frame,
   .promo-hero-image,
-  .promo-hero-glow {
+  .promo-hero-glow,
+  .disco-beam,
+  .star-rain span {
     animation: none;
   }
 }
