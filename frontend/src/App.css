@@ -25,7 +25,8 @@
   padding: 3px;
   background: linear-gradient(135deg, #ff003c, #ffe600 48%, #00e5ff);
   box-shadow: 0 24px 80px rgba(255, 0, 60, 0.24), 0 0 44px rgba(0, 229, 255, 0.14);
-  animation: promo-float 5.5s ease-in-out infinite;
+  transform-origin: center center;
+  animation: promo-dance 4s ease-in-out infinite;
 }
 
 .promo-hero-image {
@@ -35,11 +36,19 @@
   max-height: 78vh;
   object-fit: contain;
   border-radius: calc(1.5rem - 3px);
+  animation: promo-image-pulse 2.8s ease-in-out infinite;
 }
 
-@keyframes promo-float {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-10px) scale(1.008); }
+@keyframes promo-dance {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-0.8deg) scale(1); }
+  25% { transform: translate3d(10px, -12px, 0) rotate(0.9deg) scale(1.018); }
+  50% { transform: translate3d(0, -18px, 0) rotate(-0.3deg) scale(1.028); }
+  75% { transform: translate3d(-10px, -10px, 0) rotate(-1deg) scale(1.016); }
+}
+
+@keyframes promo-image-pulse {
+  0%, 100% { filter: brightness(1) saturate(1); }
+  50% { filter: brightness(1.12) saturate(1.18); }
 }
 
 @keyframes promo-light-sweep {
@@ -49,6 +58,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .promo-image-frame,
+  .promo-hero-image,
   .promo-hero-glow {
     animation: none;
   }
