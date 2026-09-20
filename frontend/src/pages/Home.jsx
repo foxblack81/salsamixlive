@@ -144,44 +144,24 @@ const Home = () => {
       {/* Hero Section with semantic HTML */}
       <header
         data-testid="hero-section"
-        className="promo-hero relative flex min-h-[75vh] items-center justify-center overflow-hidden px-3 py-6 sm:px-6 sm:py-10"
+        className="promo-hero relative flex min-h-[85svh] items-end justify-center overflow-hidden px-3 py-6 sm:px-6 sm:py-10"
         role="banner"
         aria-label="Colombian Cup Holder en SalsaMixLive"
       >
-        <div className="promo-hero-glow absolute inset-0" aria-hidden="true"></div>
-        <div className="disco-lights absolute inset-0" aria-hidden="true">
-          <span className="disco-beam disco-beam-one"></span>
-          <span className="disco-beam disco-beam-two"></span>
-          <span className="disco-beam disco-beam-three"></span>
-        </div>
-        <div className="star-rain absolute inset-0" aria-hidden="true">
-          {Array.from({ length: 28 }, (_, index) => (
-            <span
-              key={index}
-              style={{
-                '--star-index': index,
-                left: `${(index * 37) % 100}%`,
-                animationDelay: `${index * -0.31}s`,
-                animationDuration: `${2.8 + (index % 7) * 0.34}s`,
-              }}
-            ></span>
-          ))}
-        </div>
-
+        <video
+          data-testid="hero-background-video"
+          className="promo-hero-video"
+          src="/videos/conga-colombia-comercial-5s.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-label="Video promocional de la conga de Colombia para bebidas"
+        />
+        <div className="promo-video-shade absolute inset-0" aria-hidden="true" />
         <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center">
-          <h1 className="sr-only">Colombian Cup Holder: pide tu conga de tu bandera</h1>
-
-          <div className="promo-image-frame">
-            <img
-              src="/images/colombian-cup-holder.jpg"
-              alt="Colombian Cup Holder: congas portavasos de España, Colombia y Puerto Rico. Precio: 39.99 USD. Pedidos por WhatsApp al 516-920-8498."
-              className="promo-hero-image"
-              width="683"
-              height="1024"
-              fetchPriority="high"
-            />
-          </div>
-
+          <h1 className="sr-only">Conga de Colombia para bebidas</h1>
           <div className="mt-6 flex flex-col items-center gap-4 text-center">
           {streamStatus?.is_live && (
             <div data-testid="live-badge" className="inline-flex items-center gap-2 bg-[#FF003C]/20 text-[#FF003C] border border-[#FF003C] rounded-full px-4 py-2 text-sm uppercase tracking-[0.2em] font-bold animate-pulse" role="status" aria-live="polite">

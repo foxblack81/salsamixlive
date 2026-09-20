@@ -14,6 +14,19 @@
     #050505;
 }
 
+.promo-hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.promo-video-shade {
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent 55%, rgba(0, 0, 0, 0.8) 100%);
+}
 .promo-hero-glow {
   background: linear-gradient(120deg, transparent 25%, rgba(255, 230, 0, 0.08) 50%, transparent 75%);
   animation: promo-light-sweep 7s ease-in-out infinite;

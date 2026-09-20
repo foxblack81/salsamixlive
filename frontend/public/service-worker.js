@@ -59,6 +59,9 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Let the browser handle video byte-range requests directly.
+  if (request.destination === 'video' || url.pathname.startsWith('/videos/')) return;
+
   // Skip WebSocket connections
   if (url.protocol === 'ws:' || url.protocol === 'wss:') {
     return;
