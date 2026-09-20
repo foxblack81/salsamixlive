@@ -144,7 +144,7 @@ const Home = () => {
       {/* Hero Section with semantic HTML */}
       <header
         data-testid="hero-section"
-        className="promo-hero relative flex min-h-[85svh] items-end justify-center overflow-hidden px-3 py-6 sm:px-6 sm:py-10"
+        className="promo-hero relative flex flex-col items-center justify-center overflow-hidden px-3 py-6 sm:px-6 sm:py-10"
         role="banner"
         aria-label="Colombian Cup Holder en SalsaMixLive"
       >
@@ -159,7 +159,7 @@ const Home = () => {
           preload="auto"
           aria-label="Video promocional de la conga de Colombia para bebidas"
         />
-        <div className="promo-video-shade absolute inset-0" aria-hidden="true" />
+
         <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center">
           <h1 className="sr-only">Conga de Colombia para bebidas</h1>
           <div className="mt-6 flex flex-col items-center gap-4 text-center">
