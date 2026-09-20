@@ -146,7 +146,7 @@ const Home = () => {
         data-testid="hero-section"
         className="promo-hero relative flex min-h-[75vh] items-center justify-center overflow-hidden px-3 py-6 sm:px-6 sm:py-10"
         role="banner"
-        aria-label="Rifa de un Conga Holder en SalsaMixLive"
+        aria-label="Colombian Cup Holder en SalsaMixLive"
       >
         <div className="promo-hero-glow absolute inset-0" aria-hidden="true"></div>
         <div className="disco-lights absolute inset-0" aria-hidden="true">
@@ -169,15 +169,15 @@ const Home = () => {
         </div>
 
         <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center">
-          <h1 className="sr-only">Rifa de un Conga Holder de Santos 3D en SalsaMixLive</h1>
+          <h1 className="sr-only">Colombian Cup Holder: pide tu conga de tu bandera</h1>
 
           <div className="promo-image-frame">
             <img
-              src="/images/conga-holder-rifa-sept-5-2026.jpg"
-              alt="Flyer de la rifa de un Conga Holder de Santos 3D. Para participar comenta CONGA, dale like, comparte SalsaMixLive.com y sigue las redes sociales. Sorteo el sábado 5 de septiembre."
+              src="/images/colombian-cup-holder.jpg"
+              alt="Colombian Cup Holder: congas portavasos de España, Colombia y Puerto Rico. Precio: 39.99 USD. Pedidos por WhatsApp al 516-920-8498."
               className="promo-hero-image"
-              width="1856"
-              height="2304"
+              width="683"
+              height="1024"
               fetchPriority="high"
             />
           </div>
