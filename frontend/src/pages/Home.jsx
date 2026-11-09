@@ -4,6 +4,7 @@ import BottomNav from '../components/BottomNav';
 import SocialMediaPopup from '../components/SocialMediaPopup';
 import AdvertisementBanner from '../components/AdvertisementBanner';
 import WeatherTicker from '../components/WeatherTicker';
+import FeriaCali from '../components/FeriaCali';
 import SocialShareButtons from '../components/SocialShareButtons';
 import SocialLinksBar from '../components/SocialLinksBar';
 import { Play, Calendar, Users } from 'lucide-react';
@@ -202,6 +203,7 @@ const Home = () => {
 
       {/* Eventos Salseros - Main Content */}
       <main>
+        <FeriaCali />
         <section className="container mx-auto px-4 py-12" aria-labelledby="eventos-heading">
           <article className="glass-effect rounded-2xl p-6 md:p-8">
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
